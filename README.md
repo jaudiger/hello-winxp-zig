@@ -1,6 +1,6 @@
 # Hello Zigwin
 
-## Instructions
+## Getting Started
 
 This is a minimal Windows XP-compatible GUI application written in [Zig](https://ziglang.org). It creates a simple "Hello, World!" window using the Win32 API, cross-compiled from any platform using Zig's built-in cross-compilation capabilities.
 
@@ -69,15 +69,3 @@ qemu-system-i386 \
 The `zig-out/bin` directory (containing `hello_zigwin.exe`) will appear as a second drive inside the VM.
 
 ![Hello Zigwin running on Windows XP](screenshot.png)
-
-## CI / CD
-
-The CI/CD pipeline is configured using GitHub Actions. The workflow is defined in the [`.github/workflows`](.github/workflows) folder:
-
-- Static Analysis (source code, GitHub Actions)
-
-Additionally, Dependabot is configured to automatically update dependencies (GitHub Actions).
-
-## Repository configuration
-
-The settings of this repository are managed from the [gitops-deployments](https://github.com/jaudiger/gitops-deployments) repository using Terraform. The actual configuration applied is located in the Terraform module [`modules/github-repository`](https://github.com/jaudiger/gitops-deployments/tree/main/modules/github-repository).
