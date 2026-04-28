@@ -1,0 +1,51 @@
+name: Continuous Integration - Tests (Zig)
+
+on:
+  push:
+    paths:
+      - ".github/workflows/tests-zig.yml"
+      - "**/*.zig"
+      - "build.zig.zon"
+  pull_request:
+    paths:
+      - ".github/workflows/tests-zig.yml"
+      - "**/*.zig"
+      - "build.zig.zon"
+  workflow_dispatch:
+
+concurrency:
+  group: tests-zig-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  zig-system-test:
+    runs-on: ubuntu-latest
+    env:
+      WINEDLLOVERRIDES: "mscoree=d;mshtml=d"
+      WINEDEBUG: "fixme-all"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Install Zig
+        uses: mlugg/setup-zig@v2.2.1
+        with:
+          version: 0.16.0
+
+      - name: Build
+        run: zig build
+
+      - name: Install Wine and Xvfb
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends wine wine32:i386 xvfb
+
+      - name: Initialize Wine prefix
+        run: xvfb-run -a wineboot --init
+
+      - name: Run smoke test
+        run: |
+          rc=0
+          timeout 5 xvfb-run -a wine zig-out/bin/hello-zigwin.exe || rc=$?
+          [ "$rc" -eq 124 ]
