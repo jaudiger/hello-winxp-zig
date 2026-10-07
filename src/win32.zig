@@ -103,7 +103,7 @@ pub const PAINTSTRUCT = extern struct {
     rcPaint: RECT = .{ .left = 0, .top = 0, .right = 0, .bottom = 0 },
     fRestore: BOOL = 0,
     fIncUpdate: BOOL = 0,
-    rgbReserved: [32]BYTE = [_]BYTE{0} ** 32,
+    rgbReserved: [32]BYTE = @splat(0),
 };
 
 // --- Function declarations ---

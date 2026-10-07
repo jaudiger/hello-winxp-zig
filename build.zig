@@ -14,7 +14,7 @@ pub fn build(b: *std.Build) void {
         }),
     });
 
-    exe.subsystem = .Windows;
+    exe.subsystem = .windows;
     exe.build_id = .none;
     exe.linker_dynamicbase = false;
 
